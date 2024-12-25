@@ -1,6 +1,7 @@
 # User Account Management
 
-This project includes user account creation, login, profile retrieval, and logout functionality using Node.js, Express, and MongoDB.
+This project includes user account creation, login, profile
+ retrieval, and logout functionality using Node.js, Express, and MongoDB.
 
 ## Installation
 
@@ -8,6 +9,7 @@ This project includes user account creation, login, profile retrieval, and logou
     ```sh
     git clone https://github.com/your-repo/uber-project-backend.git
     cd uber-project-backend
+
     ```
 
 2. Install dependencies:
@@ -41,3 +43,4 @@ This project includes user account creation, login, profile retrieval, and logou
     "email": "john.doe@example.com",
     "password": "password123"
 }
+

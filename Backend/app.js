@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToDB from "./db/db.js";
 import userRouter from "./routes/user.routes.js"
+import captainRouter from "./routes/captain.routes.js"
 const app=express();
 
 connectToDB();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/users",userRouter);
+app.use("/captain",captainRouter);
 
 app.get("/",(req,res)=>{
     res.send("Hello World");

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const captainSchema = new mongoose.Schema({
     firstname: {
         type: String,
@@ -66,16 +68,13 @@ captainSchema.methods.generateAuthToken = function () {
     return token;
 }
 
-
 captainSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-
 captainSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
-
 const captainModel=mongoose.model('captain',captainSchema);
 
 export default captainModel;

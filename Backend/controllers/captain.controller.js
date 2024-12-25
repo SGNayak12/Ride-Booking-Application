@@ -9,7 +9,9 @@ const registerCaptain = async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { fullname, email, password, vehicle } = req.body;
+    const { firstname,lastname, email, password, vehicle } = req.body;
+    const { color, plate, capacity, vehicleType } = vehicle;
+
 
     const isCaptainAlreadyExist = await captainModel.findOne({ email });
 
@@ -17,18 +19,19 @@ const registerCaptain = async (req, res, next) => {
         return res.status(400).json({ message: 'Captain already exist' });
     }
 
-
     const hashedPassword = await captainModel.hashPassword(password);
 
-    const captain = await captainService.createCaptain({
-        firstname: fullname.firstname,
-        lastname: fullname.lastname,
+    const captain = await captainModel.create({
+        firstname,
+        lastname,
         email,
         password: hashedPassword,
-        color: vehicle.color,
-        plate: vehicle.plate,
-        capacity: vehicle.capacity,
-        vehicleType: vehicle.vehicleType
+        vehicle: {
+            color,
+            plate,
+            capacity,
+            vehicleType
+        }
     });
 
     const token = captain.generateAuthToken();
@@ -72,9 +75,7 @@ const logoutCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];
 
     // await blackListTokenModel.create({ token });
-
     res.clearCookie('token');
-
     res.status(200).json({ message: 'Logout successfully' });
 }
 

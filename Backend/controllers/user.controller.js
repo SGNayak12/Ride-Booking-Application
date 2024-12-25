@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import {validationResult} from "express-validator";
-import authMiddleware from "../middlewares/auth.middleware.js";
+import {authUser} from "../middlewares/auth.middleware.js";
 
 const registerUser = async (req,res,next)=>{
     const errors = validationResult(req);
