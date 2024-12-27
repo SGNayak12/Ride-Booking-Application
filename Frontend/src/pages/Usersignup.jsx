@@ -4,20 +4,18 @@ import Logo from '../assets/Logo.png';
 import axios from 'axios'
 import {UserDataContext}  from '../contexts/UserContext.jsx'
 
-
 const UserSignup = () => {
   const [ email, setEmail ] = useState('')
   const [ Password, setPassword ] = useState('')
   const [ firstName, setFirstName ] = useState('')
   const [ lastName, setLastName ] = useState('')
   const [error, setError] = useState('');
-  // const [ userData, setUserData ] = useState({})
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserDataContext);
   
   const submitHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     
     const newUser = {
       firstName: firstName,
@@ -26,7 +24,7 @@ const UserSignup = () => {
       Password: Password
     }
 
-     try {
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/users/register`,
         newUser,
@@ -37,12 +35,12 @@ const UserSignup = () => {
         }
       );
       console.log('User registered:', response.data);
+      console.log(response.data.newUser);
       navigate('/user-login'); 
     } catch (error) {
       console.error('Error registering user:', error);
       setError('Failed to register. Please try again.');
     }
-
 
     setEmail('')
     setFirstName('')

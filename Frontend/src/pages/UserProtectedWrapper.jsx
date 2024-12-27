@@ -8,7 +8,7 @@ const UserProtectedWrapper = ({children}) => {
     const {user, setUser} = useContext(UserDataContext);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const [token,setToken]=useState(localStorage.getItem('token'));
+    const [token,setToken]=useState(localStorage.getItem('user-token'));
 
   useEffect(() => { 
      if (!token) {
@@ -19,7 +19,6 @@ const UserProtectedWrapper = ({children}) => {
                 Authorization: `Bearer ${token}`
             }
         }).then(response => {
-            console.log(response);
             if (response.status === 200) {
                 setUser(response.data)
                 setIsLoading(false)

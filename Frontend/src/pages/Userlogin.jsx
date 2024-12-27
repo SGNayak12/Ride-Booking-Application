@@ -1,15 +1,15 @@
 import { useState, useContext } from 'react'
 import Logo from '../assets/Logo.png';
-import { Link } from 'react-router-dom'
-import { UserDataContext } from '../contexts/UserContext.jsx'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { Link } from 'react-router-dom';
+import { UserDataContext } from '../contexts/UserContext.jsx';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const UserLogin = () => {
-  const [ email, setEmail ] = useState('')
-  const [ Password, setPassword ] = useState('')
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
 
-  const { user, setUser } = useContext(UserDataContext);
+  const {user,setUser} = useContext(UserDataContext);
   
   const navigate = useNavigate();
   const submitHandler = async (e) => {
@@ -17,16 +17,24 @@ const UserLogin = () => {
 
     const userData= {
       email: email,
-      Password: Password
+      Password: password
     }
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+       console.log(response);
 
-    if (response.status === 200) {
+    if (response.status == 200) {
       const data = response.data;
       setUser(data.user);
-      localStorage.setItem('token', data.token)
+      console.log(user);
+      localStorage.setItem('user-token', data.token)
       navigate('/user-home')
     }
+    } catch (error) {
+      console.log("Error in login",error);
+      navigate('/user-login');
+    }
+    
     setEmail('')
     setPassword('')
   }
@@ -55,7 +63,7 @@ const UserLogin = () => {
 
           <input
             className='bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
-            value={Password}
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value)
             }}
