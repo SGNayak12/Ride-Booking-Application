@@ -33,7 +33,7 @@ const registerCaptain = async (req, res, next) => {
             vehicleType
         }
     });
-
+    await captain.save();
     const token = captain.generateAuthToken();
 
     res.status(201).json({ token, captain });
