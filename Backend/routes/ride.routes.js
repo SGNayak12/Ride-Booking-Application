@@ -4,13 +4,14 @@ import { validationResult,body,query } from "express-validator";
 import { authUser } from "../middlewares/auth.middleware.js";
 import { createRide } from "../controllers/ride.controller.js";
 import { getRideFare } from "../controllers/ride.controller.js";
+import { getFare } from "../services/ride.service.js";
 
 
 router.get('/get-fare',
     query('pickup').isString().isLength({ min: 3 }),
     query('destination').isString().isLength({ min: 3 }),
     authUser,
-    getRideFare
+    getFare
 )
 
 router.post('/create-ride',

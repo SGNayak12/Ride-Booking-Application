@@ -80,7 +80,12 @@ const Home = () => {
       if (!destination) return; 
 
       const response = await axios.get(
-        `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${encodeURIComponent(destination)}&key=${import.meta.env.GOOGLE_MAPS_API_KEY}`
+        `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${encodeURIComponent(destination)}&key=${import.meta.env.GOOGLE_MAPS_API_KEY}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+          }
+        }
       );
 
       if (response.data.status === "OK") {
@@ -191,7 +196,7 @@ const Home = () => {
       {/* {selectRide && pickup && destination  && <Rideselection pickup={pickup} destination={destination} />} */}
       <Rideselection pickup={pickup} destination={destination} vehicleType={vehicleType} fare={fare} />
 
-      <confirmRide/>
+      
     </div>
   );
 };

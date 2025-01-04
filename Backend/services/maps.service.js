@@ -41,6 +41,7 @@ const getDistanceTime = async (origin, destination) => {
         } else {
             throw new Error('Unable to fetch distance and time');
         }
+        
 
     } catch (err) {
         console.error(err);

@@ -6,6 +6,14 @@ const getFare = async(pickup,destination)=>{
         throw new Error("Pickup and destination address is required");
     }
     const distanceTime=await getDistanceTime(pickup,destination);
+    console.log(distanceTime);
+
+    const distanceValue = distanceTime.distance?.value;
+    const durationValue = distanceTime.duration?.value;
+
+    if (distanceValue === undefined || durationValue === undefined) {
+        throw new Error("Invalid distance or duration data received");
+    }
 
     const baseFare={
         car:50,
