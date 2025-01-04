@@ -1,12 +1,12 @@
 import {getDistanceTime} from "../services/maps.service.js";
 import crypto from "crypto";
 
-const getFare =async(pickup,destination)=>{
+const getFare = async(pickup,destination)=>{
     if(!pickup && !destination){
         throw new Error("Pickup and destination address is required");
     }
     const distanceTime=await getDistanceTime(pickup,destination);
-    console.log(distanceTime);
+
     const baseFare={
         car:50,
         auto:30,
