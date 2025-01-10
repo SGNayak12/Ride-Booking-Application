@@ -37,7 +37,7 @@ const Captainlogin = () => {
   return (
     <div className='flex flex-col justify-between h-screen p-7'>
       <div>
-        <img className='' src={Logo} alt="" />
+        <img className='w-24 h-10 mb-2' src={Logo} alt="" />
 
         <form onSubmit={(e) => {
           submitHandler(e)

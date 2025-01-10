@@ -4,6 +4,7 @@ import {authUser} from "../middlewares/auth.middleware.js"
 import {getCoordinates,getDistanceAndTime,getAutoCompleteAndSuggestions} from "../controllers/maps.controller.js"
 import { query } from "express-validator";
 
+
 router.get("/get-coordinates",authUser,[
         query('address').isString().isLength({ min: 3 }),
 ]
@@ -15,6 +16,7 @@ router.get('/get-distance-time',
     authUser,
     getDistanceAndTime
 )
+
 
 router.get('/get-suggestions',
     query('input').isString().isLength({ min: 3 }),

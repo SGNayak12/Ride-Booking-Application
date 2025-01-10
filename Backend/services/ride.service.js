@@ -6,8 +6,6 @@ const getFare = async(pickup,destination)=>{
         throw new Error("Pickup and destination address is required");
     }
     const distanceTime=await getDistanceTime(pickup,destination);
-    console.log(distanceTime);
-
     const distanceValue = distanceTime.distance?.value;
     const durationValue = distanceTime.duration?.value;
 
@@ -16,7 +14,7 @@ const getFare = async(pickup,destination)=>{
     }
 
     const baseFare={
-        car:50,
+        car:40,
         auto:30,
         moto:20
     }
@@ -31,7 +29,6 @@ const getFare = async(pickup,destination)=>{
         car: 3,
         moto: 1.5
     };
-
     const fare = {
         auto: Math.round(baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto)),
         car: Math.round(baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),

@@ -2,7 +2,6 @@ import rideModel from "../models/ride.model.js"
 import { validationResult } from "express-validator";
 import {getFare, getOTP} from "../services/ride.service.js";
 
-
 const getRideFare = async(req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -12,8 +11,6 @@ const getRideFare = async(req,res,next)=>{
     const fare = await getFare(pickup, destination);
     res.status(200).json({ fare });
 }
-
-
 const createRide = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

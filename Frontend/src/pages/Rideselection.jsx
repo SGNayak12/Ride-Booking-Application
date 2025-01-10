@@ -1,88 +1,85 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; 
 import axios from 'axios';
+import { useState,useEffect} from 'react';
+import VehicleCard from './VehicleCard.jsx';
 
-const Rideselection = ({ pickup, destination }) => {
-  
-    const [vehicleType, setVehicleType] = useState('car');
-    const [distance, setDistance] = useState('');
-    const [duration, setDuration] = useState('');
-    const [fare, setFare] = useState({});
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
-
-useEffect(() => {
-    const getFare = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/get-fare`, {
-                params: { pickup, destination },
-                headers: { Authorization: `Bearer ${localStorage.getItem('user-token')}` }
-            });
-            setFare(response.data);
-        } catch (err) {
-            setError('Error fetching fare');
-            console.error(err);
-        } finally {
-            setLoading(false); // Set loading to false once the request is complete
+const Rideselection = ({pickup,destination}) => {
+  const [fare,setFare]=useState(null);
+  const calculateFare = async()=>{
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/get-fare`, {
+        params: {
+          pickup,
+          destination
+        },
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('user-token')}`
         }
-    };
-
-    if (pickup && destination) {
-        getFare();
+      });
+      setFare(response.data.fare);
+    } catch (err) {
+      console.error(err);
     }
-}, [pickup, destination]);
+  }
 
-    const vehicleInfo = [
-        {
-            vehicleImage: 'https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/UberGo_2025_Balloons.png',
-            vehicleName: 'Rider Car',
-            vehicleCapacity: '4 people',
-            vehiclePrice: fare.car|| 'Loading...', // Default to "Loading..." if the fare is not available
-        },
-        {
-            vehicleImage: 'https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/TukTuk_2025_Balloons.png',
-            vehicleName: 'Rider Auto',
-            vehicleCapacity: '3 people',
-            vehiclePrice: fare.auto || 'Loading...', // Default to "Loading..."
-        },
-        {
-            vehicleImage: 'https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/Moto_2025_Balloons.png',
-            vehicleName: 'Rider Moto',
-            vehicleCapacity: '2 people',
-            vehiclePrice:fare.moto || 'Loading...', // Default to "Loading..."
-        },
-    ];
+   useEffect(() => {
+    calculateFare();
+    // console.log(fare);
+  }, [fare]);
 
-    return (
-        <div className="max-h-full overflow-y-auto mt-12 w-[35%]">
-            <div className="flex flex-col max-h-full p-6 ml-4 bg-white border rounded-md shadow-lg ">
-                <h3 className="mb-3 text-3xl font-semibold text-gray-800">Choose a ride</h3>
-                <div className="flex flex-col w-full max-h-full gap-6 overflow-y-auto">
-                    {vehicleInfo.map((vehicle, index) => (
-                        <div key={index} className="flex flex-row items-center justify-center p-4 transition-all duration-300 rounded-md shadow-md bg-gray-50 hover:shadow-lg">
-                            <img
-                                className="object-cover w-20 h-20 mb-4 mr-5 rounded-md "
-                                src={vehicle.vehicleImage}
-                                alt={vehicle.vehicleName}
-                            />
-                            
-                            <div className="flex flex-row h-20 gap-12">
-                                <div>
-                                    <h4 className="text-2xl font-semibold text-gray-800">{vehicle.vehicleName}</h4>
-                                    <p className="text-lg text-gray-600">{vehicle.vehicleCapacity} seats</p>
-                                </div>
-                                <div>
-                                    <p className="text-xl font-medium text-black">{vehicle.vehiclePrice}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <button className="w-full p-3 mt-6 text-xl text-white transition-all duration-300 bg-black border rounded-md hover:bg-gray-800">
-                    Request a Ride
-                </button>
+  const vehicleDetails=[
+    {
+      vehicleName:"Rider Car",
+      vehicleType:"car",
+      vehicleImage:"https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/UberX_v1.png",
+      vehicleCapacity:"4",
+      // fare:fare[this.vehicleType]
+    },
+    {
+      vehicleName:"Rider Auto",
+      vehicleType:"auto",
+      vehicleImage:"https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/TukTuk_Green_v1.png",
+      vehicleCapacity:"3",
+      // fare:fare[this.vehicleType]
+    },
+    {
+      vehicleName:"Rider Moto",
+      vehicleType:"moto",
+      vehicleImage:"https://d1a3f4spazzrp4.cloudfront.net/car-types/haloProductImages/v1.1/Uber_Moto_India1.png",
+      vehicleCapacity:"2",
+      // fare:fare[this.vehicleType]
+    }
+  ]
+  
+  return (
+    <>
+      {fare ? (
+        <div className="flex items-center w-full h-full gap-5 p-2 mt-2 bg-white border rounded-md justify-evenly">
+       
+          {vehicleDetails.map((item, index) => (
+            <div key={index}>
+              <VehicleCard
+                vehicleName={item.vehicleName}
+                vehicleImage={item.vehicleImage}
+                fare={fare[item.vehicleType]} 
+              />
             </div>
+            
+          ))}
         </div>
-    );
+      ) : (
+        <div>Loading...</div>  // Display loading until fare is fetched
+      )}
+      <div className='flex items-center justify-center w-full h-32 bg-black border rounded-md'>
+        <button className='text-xl font-semibold text-center text-white '>Select the Ride</button>
+      </div>
+    </>
+
+  )
+}
+Rideselection.propTypes ={
+    pickup: PropTypes.string.isRequired,       // Declare 'pickup' prop is a required string
+    destination: PropTypes.string.isRequired,  // Declare 'destination' prop is a required string
 };
 
 export default Rideselection;

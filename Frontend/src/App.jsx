@@ -1,4 +1,5 @@
 import {Route, Routes} from 'react-router-dom'
+import 'remixicon/fonts/remixicon.css';
 import Home from './pages/Home';
 import Start from './pages/Start';
 import UserLogin from './pages/UserLogin';
@@ -7,6 +8,7 @@ import CaptainLogin from './pages/CaptainLogin';
 import CaptainSignup from './pages/CaptainSignup';
 import UserProtectedWrapper from './pages/UserProtectedWrapper';
 import CaptainProtectWrapper from './pages/CaptainProtectWrapper';
+import CaptainHome from './pages/CaptainHome';
 
 function App() {
   return (
@@ -24,7 +26,7 @@ function App() {
         }/>
         <Route path="/captain-home" element={
           <CaptainProtectWrapper>
-            <Home/>
+            <CaptainHome/>
           </CaptainProtectWrapper>
         }/>
       </Routes>
