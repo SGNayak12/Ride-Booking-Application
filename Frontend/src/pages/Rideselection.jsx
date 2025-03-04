@@ -18,7 +18,7 @@ const Rideselection = ({pickup,destination}) => {
       });
       setFare(response.data.fare);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 
@@ -68,7 +68,7 @@ const Rideselection = ({pickup,destination}) => {
           ))}
         </div>
       ) : (
-        <div>Loading...</div>  // Display loading until fare is fetched
+        <div className='text-xl'>Loading...</div>  // Display loading until fare is fetched
       )}
       <div className='flex items-center justify-center w-full h-32 bg-black border rounded-md'>
         <button className='text-xl font-semibold text-center text-white '>Select the Ride</button>

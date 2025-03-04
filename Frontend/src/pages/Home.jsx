@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef} from "react";
+import { useState, useEffect,useRef} from "react";
 import Logo from "../assets/Logo.png";
 import axios from "axios";
 import Rideselection from "./Rideselection.jsx";
